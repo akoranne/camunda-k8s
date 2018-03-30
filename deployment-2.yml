@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8-camunda-deployment
+  labels:
+    app: k8-camunda
+spec:
+  selector:
+    matchLabels:
+      app: k8-camunda
+  # changed replicas to 2
+  replicas: 2
+  # create pods using pod definition in this template - k8-camunda
+  template: 
+    metadata:
+      # the name is not included in the meta data as a unique 
+      # name is generated from the deployment name
+      labels:
+        app: k8-camunda
+    spec:
+      # breakdown of containers in k8s cluster
+      containers:
+      - name: bpm
+        image: camunda/camunda-bpm-platform
+        ports:
+        - containerPort: 8080
+        # specify environment variables (from cloud)
